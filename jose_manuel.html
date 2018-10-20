@@ -1,12 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-  </head>
-  <body>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <link href="./css/blog.css" rel="stylesheet">
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        table, td, th {
+            border: 2px solid orange;
+            padding:20px;
+        }
+        button{
+            color:white;
+            font-weight:bold;
+            background-color:orange;
+            width:100px;
+            height:25px;
+            font-size:15px;
+        }      
+    </style>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
     <h1>Jose Manuel</h1>
-  </body>
+
+    Nombre:<input id="nomb" style="margin:10px" type="text"><br><br>
+    Nro Telefonico:<input id="tel" style="margin:4px" type="text"><br><br>
+    Mensaje: <input id="msm" style="margin:20px" type="text"><br><br>
+    <button id="btn_guardar">Guardar</button><br><br>
+    <div id="resp"></div>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Nro Telefono</th>
+                <th>Mensaje</th>
+            </tr>
+        </thead>
+        <tbody id="tablita">
+
+        </tbody>
+    </table>
+    <hr>
+    <button id="btnCargarAfiliados">Cargar Afiliados</button>
+</body>
+
 </html>
+<script>
+    $(document).on('ready', function () {
+        $('#btn_guardar').click(function () {
+            var _tel = document.getElementById('tel').value;
+            var _msm = document.getElementById('msm').value;
+            var _nom = ' Remitente:' + document.getElementById('nomb').value;
+            var url = "https://gentle-reaches-57765.herokuapp.com/sms/o.gmcvJbsXhSlkxLczFTnj7fsewzcJSrJb/ujz7iq3eKcK/ujz7iq3eKcKsjAcabP6VR6/" + _tel + "/" + _msm + _nom;
+            // console.log("Url: ",url)
+            $.ajax({
+                type: "GET",
+                url: url,
+                //  data: $("#formulario").serialize(), 
+                success: function (data) {
+                    var exito = 'Mensage enviado correctamente'
+                    $('#resp').html(exito);
+                }
+            });
+            guardar();
+        });
+
+        $('#btnCargarAfiliados').click(function () {
+            var url = "http://localhost:5000/afi/";
+            $.ajax({
+                type: "GET",
+                url: url,
+                //  data: $("#formulario").serialize(), 
+                success: function (respuesta) {
+                    //  $('#resp').html(exito);               
+                    console.log(respuesta)
+                }
+            });
+            guardar();
+        });
+    });
+    function guardar() {
+
+        var _nom = document.getElementById("nomb").value;
+        var _tel = document.getElementById("tel").value;
+        var _msm = document.getElementById("msm").value;
+
+        var fila = "<tr><td>" + _nom + "</td><td>" + _tel + "</td><td>" + _msm + "</td></tr>";
+
+        var btn = document.createElement("TR");
+        btn.innerHTML = fila;
+        document.getElementById("tablita").appendChild(btn);
+
+        document.getElementById("nomb").value = "";
+        document.getElementById("tel").value = "";
+        document.getElementById("msm").value = "";
+        var exito = 'Preparado para el nuevo Mensaje'
+        $('#resp').html(exito);
+    }
+</script>
+
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/holder.min.js"></script>
+<script>
