@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900"
+      rel="stylesheet">
+    <link href="./css/blog.css" rel="stylesheet">
+    <style>
+    table{
+            border-collapse: collapse;
+        }
+        table, td, th {
+            border: 2px solid orange;
+            padding:20px;
+        }
+        button{
+            color:white;
+            font-weight:bold;
+            background-color:orange;
+            width:100px;
+            height:25px;
+            font-size:15px;
+        }      
+    </style>
+    <script src="https://code.jquery.com/jquery-2.2.4.js"
+      integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <h1>Ebert Manuel</h1>
+
+
+  </body>
+
+</html>
+<script>
+  $(document).on('ready', function () {
+    $.ajax({
+      url: "http://localhost:3000/afiliados/",
+      success: function (data) {
+        // console.log("Data: ",data);
+        var resultados=JSON.parse(data).result.recordset;
+        console.log("Resultados: ",resultados)
+        // var exito = 'Mensage enviado correctamente'
+        // $('#resp').html(exito);
+      },
+      error:function(err){
+        console.log(err)
+        alert("Error al procesar la solicitud")
+      }
+    });
+  });
+</script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/holder.min.js"></script>
+<script>
