@@ -85,16 +85,7 @@ document.getElementById('sms.form').addEventListener('submit', function (event) 
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         });
     }
-    // fetch(urlsms)
-    //     .then((respuesta) => {
-    //         return respuesta.json();
-    //     }).then((respuesta) => {
-    //         const sms = new Sms(nombre, telefono, msj);
-    //         interfaz.listarSms(sms);
-    //         console.log(sms);
-    //         interfaz.limpiarFormulario();
-    //         interfaz.estadoSms("SMS enviado satisfactoriamente. ;)", "success")
-    //     });
+
     event.preventDefault();
 })
 
