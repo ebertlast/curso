@@ -1,12 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Ejemplo para consumir un servicio web">
+    <meta name="author" content="Menkar Cantor">
+
+    <title>Menkar Cantor</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/menkar.css" rel="stylesheet">
   </head>
-  <body>
-    <h1>Menkar Cantor</h1>
+
+  <body class="text-center">
+    <div class="w-100">
+      <p>Para su registro debe ingresar su número de celular donde recibirá un código de habilitación</p>
+      <form class="form-inline form-msg">
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="inputTel" class="sr-only">Celular</label>
+            <input type="tel" class="form-control" id="inputTel" placeholder="Ingrese número de celular">
+          </div>
+          <button type="button" id="btnEnviarCodigo" class="btn btn-primary mb-2">Enviar código</button>
+      </form>
+    </div>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  <script
+      src="http://code.jquery.com/jquery-1.9.1.min.js"
+      integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+  <script src="./js/popper.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script>
+  <script src="./js/holder.min.js"></script>
+  <script>
+    Holder.addTheme('thumb', {
+      bg: '#55595c',
+      fg: '#eceeef',
+      text: 'Thumbnail'
+    });
+    
+    $(document).ready(()=>{
+      //alert("hola");
+    })
+
+    $('#btnEnviarCodigo').on("click",() => {
+      var numero = $("#inputTel").val();
+      var codigo = Math.floor(1e3 + (Math.random() * 3e3));
+      var mensaje = `Su código de ingreso es ${codigo}`
+      var urlSMS = `https://gentle-reaches-57765.herokuapp.com/sms/o.gmcvJbsXhSlkxLczFTnj7fsewzcJSrJb/ujz7iq3eKcK/ujz7iq3eKcKsjAcabP6VR6/${numero}/${mensaje}`
+      if (numero === "") {
+        return $("#inputTel").focus()
+      }
+
+      $.ajax({
+        url: urlSMS,
+        success: function (result){
+          alert("Código enviado")
+        },
+        error: function(err){
+          console.log(err);
+          alert("Ha ocurrido un error, por favor vuelva intentarlo mas tarde")
+        }
+      });
+
+     return false;
+    })
+  </script>
   </body>
 </html>
