@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>J@RC</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/blog.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav-scroller py-1 mb-2">
+            <nav class="nav d-flex justify-content-between">
+                <a class="btn btn-sm btn-outline-secondary" href="./">Home</a>
+            </nav>
+        </div>
+
+        <h1>Jair Rios</h1>
+
+        <div class="jumbotron p-3 p-md-3 text-white rounded bg-dark">
+            <div class="col-md-12 px-0">
+                <h1 class="display-4 font-italic">App para enviar SMS</h1>
+                <p class="lead my-3">Aplicacion web para consumir API para el envio de SMS a moviles en Colombia,
+                    listando numeros telefonicos y mensajes a enviar. <a href="https://github.com/jarc1010/" class="text font-italic">By
+                        J@RC</a></p>
+            </div>
+        </div>
+
+        <div id="app" class="row mb-2">
+            <div class="col-md-4">
+                <div class="card border-primary">
+                    <div class="card-header text-center">
+                        <strong class="d-inline-block mb-2 text-primary">Formulario para envio de SMS</strong>
+                    </div>
+                    <div class="card-body">
+                        <form id="sms.form">
+                            <div class="form-group">
+                                <label for="txtNombre">Nombre Remitente</label>
+                                <input type="text" class="form-control" id="txtNombre" placeholder="Jair Rios">
+                            </div>
+                            <div class="form-group">
+                                    <label for="txtTelefono">Número Telefonico</label>
+                                    <input type="number" class="form-control" id="txtTelefono" minlength="12"  placeholder="313694xxxx">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtSms">SMS</label>
+                                <textarea class="form-control" id="txtSms" rows="3" maxlength="250" placeholder="Digite mensaje de texto..."></textarea>
+                            </div>
+                            <button id="btnEnviarSms" type="submit" class="btn btn-primary btn-block">Enviar SMS</button>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card border-success">
+                    <div class="card-header text-center">
+                        <strong class="d-inline-block mb-2 text-success">Historial de SMS enviados</strong>
+                    </div>
+                    <div id="sms.list"></div>
+                    <!-- <div class="card-body"></div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="appjarc.js"></script>
+</body>
+
+</html>
