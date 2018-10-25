@@ -30,7 +30,7 @@ class Interfaz {
     borrarSms(elemento) {
         if (elemento.name === 'borrar') {
             elemento.parentElement.parentElement.parentElement.remove();
-            this.estadoSms("SMS eliminado del historial. :(", "danger");
+            this.estadoSms("SMS eliminado del historial. ;(", "danger");
         }
 
     }
@@ -57,36 +57,40 @@ document.getElementById('sms.form').addEventListener('submit', function (event) 
     const interfaz = new Interfaz();
 
     if (nombre === "" || telefono === "" || msj === "") {
+        console.log('imprime por consola prueba');
         event.preventDefault();
         return interfaz.estadoSms("Llene los campos correctamente. :(", "warning");
-        
-    }else{
 
-    const urlsms = `https://gentle-reaches-57765.herokuapp.com/sms/o.gmcvJbsXhSlkxLczFTnj7fsewzcJSrJb/ujz7iq3eKcK/ujz7iq3eKcKsjAcabP6VR6/${telefono}/${msj}. Remite: ${nombre}`;
+    } else {
 
-    fetch(urlsms)
-        .then(function (respuesta) {
-            console.log('Antes del if ' + respuesta.url);    
-            console.log('Antes del if ' + respuesta.status);    
-            
-            if (respuesta.ok){
-                console.log('Dentro del if ' + respuesta.statusText);    
-            
-                const sms = new Sms(nombre, telefono, msj);
-                interfaz.listarSms(sms);
-                // console.log(sms);
-                interfaz.limpiarFormulario();
-                interfaz.estadoSms("SMS enviado satisfactoriamente. ;)", "success")
-                console.log('Dentro Fin del if ' + respuesta.statusText);    
-            }else{
-                console.log('Respuesta con la petición Fetch OK:' + respuesta.statusText);    
-            }    
-        }).catch(function (error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
-        });
+        const urlsms = `https://gentle-reaches-57765.herokuapp.com/sms/o.gmcvJbsXhSlkxLczFTnj7fsewzcJSrJb/ujz7iq3eKcK/ujz7iq3eKcKsjAcabP6VR6/${telefono}/${msj}. Remite: ${nombre}`;
+
+        fetch(urlsms)
+            .then(function (respuesta) {
+                if (respuesta.ok) {
+                    console.log('Dentro del if ' + respuesta.statusText);
+                    console.log('Retornamos la respuesta con la promesa en json');
+                    return respuesta.json();
+                } else {
+                    console.log('Respuesta con la petición Fetch OK: ' + respuesta.statusText);
+                }
+            }).then(function (dataJson) {
+                console.log('Dentro del retorno de la respuesta');
+                console.log(dataJson);
+                if (dataJson.success){
+                    const sms = new Sms(nombre, telefono, msj);
+                    interfaz.listarSms(sms);
+                    interfaz.limpiarFormulario();
+                    interfaz.estadoSms("SMS enviado satisfactoriamente. ;)", "success")
+                }else{
+                    interfaz.estadoSms("Ha ocurrido un error al enviar SMS. :( " + dataJson, "danger")
+                }
+            }).catch (function (error) {
+                console.log('Hubo un problema con la petición Fetch: ' + error.message);
+            });
     }
 
-    event.preventDefault();
+event.preventDefault();
 })
 
 document.getElementById('sms.list').addEventListener('click', function (event) {
