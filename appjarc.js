@@ -39,8 +39,8 @@ class Interfaz {
         const div = document.createElement('div');
         div.className = `alert alert-${tipo} mt-2`;
         div.appendChild(document.createTextNode(texto));
-        const contenedor = document.querySelector('.container');
-        const app = document.querySelector('#app');
+        const contenedor = document.getElementById("contenedorSMS");
+        const app = document.getElementById('appSMS');
         contenedor.insertBefore(div, app);
         setTimeout(function () {
             document.querySelector('.alert').remove();
@@ -57,7 +57,6 @@ document.getElementById('sms.form').addEventListener('submit', function (event) 
     const interfaz = new Interfaz();
 
     if (nombre === "" || telefono === "" || msj === "") {
-        console.log('imprime por consola prueba');
         event.preventDefault();
         return interfaz.estadoSms("Llene los campos correctamente. :(", "warning");
 
@@ -97,4 +96,16 @@ document.getElementById('sms.list').addEventListener('click', function (event) {
     const interfaz = new Interfaz();
     interfaz.borrarSms(event.target);
 })
+
+document.addEventListener('load',function(event){
+   console.log('se cargo la pagina');
+})
+
+function paginaCargada(){
+    console.log('se cargo la pagina correctamente.');
+}
+
+window.onload = function() {
+    console.log('se cargo la pagina correctamente con window.onload');
+}
 

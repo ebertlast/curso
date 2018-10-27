@@ -9,18 +9,34 @@
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/blog.css" rel="stylesheet">
 
+    <script type="text/javascript">
+        function mostrarSMS() {
+            document.getElementById('contenedorUsuarios').style.display = 'none';
+            document.getElementById('contenedorSMS').style.display = 'block';
+        }
+        function mostrarListar() {
+            document.getElementById('contenedorSMS').style.display = 'none';
+            document.getElementById('contenedorUsuarios').style.display = 'block';
+        }
+    </script>
 </head>
 
 <body>
-    <div class="container">
+    <div id="contenedorNavegacion" class="container">
         <div class="nav-scroller py-1 mb-2">
-            <nav class="nav d-flex justify-content-between">
+            <!-- <nav class="nav d-flex justify-content-between"> -->
+            <nav class="nav d-flex ">
                 <a class="btn btn-sm btn-outline-secondary" href="./">Home</a>
+                <button id="btnEnviarSms" class="btn btn-primary" onclick="mostrarSMS()">SMS</button>
+                <button id="btnEnviarSms" class="btn btn-primary" onclick="mostrarListar()">Listar Usuarios</button>
+
             </nav>
         </div>
 
         <h1>Jair Rios</h1>
+    </div>
 
+    <div id="contenedorSMS" class="container" style='display: none'>
         <div class="jumbotron p-3 p-md-3 text-white rounded bg-dark">
             <div class="col-md-12 px-0">
                 <h1 class="display-4 font-italic">App para enviar SMS</h1>
@@ -30,7 +46,7 @@
             </div>
         </div>
 
-        <div id="app" class="row mb-2">
+        <div id="appSMS" class="row mb-2">
             <div class="col-md-4">
                 <div class="card border-primary">
                     <div class="card-header text-center">
@@ -43,8 +59,8 @@
                                 <input type="text" class="form-control" id="txtNombre" placeholder="Jair Rios">
                             </div>
                             <div class="form-group">
-                                    <label for="txtTelefono">Número Telefonico</label>
-                                    <input type="number" class="form-control" id="txtTelefono" minlength="12"  placeholder="313694xxxx">
+                                <label for="txtTelefono">Número Telefonico</label>
+                                <input type="number" class="form-control" id="txtTelefono" minlength="12" placeholder="313694xxxx">
                             </div>
                             <div class="form-group">
                                 <label for="txtSms">SMS</label>
@@ -52,7 +68,7 @@
                             </div>
                             <button id="btnEnviarSms" type="submit" class="btn btn-primary btn-block">Enviar SMS</button>
                         </form>
-                        
+
                     </div>
                 </div>
             </div>
@@ -68,7 +84,78 @@
         </div>
     </div>
 
-<script src="appjarc.js"></script>
+    <div id="contenedorUsuarios" class="container" style='display: none'>
+
+        <div class="jumbotron p-3 p-md-3 text-white rounded bg-dark">
+            <div class="col-md-12 px-0">
+                <h1 class="display-4 font-italic">App para listar usuarios de BD </h1>
+                <p class="lead my-3">Aplicacion web para conectarse a bd sql server y listar Usuarios regsitrados en el
+                    sistema de informacion Krystalos IPS. <a href="https://github.com/jarc1010/" class="text font-italic">By J@RC</a></p>
+            </div>
+        </div>
+
+        <div id="appUsuarios" class="row mb-2">
+            <div class="col-md-12">
+                <div class="card border-success">
+                    <div class="card-header text-center">
+                        <strong class="d-inline-block mb-2 text-success">Lista de Usuarios Registrados</strong>
+                    </div>
+                    <div class="table-responsive-sm">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">USUARIO</th>
+                                    <th scope="col">NOMBRE</th>
+                                    <th scope="col">TIPO</th>
+                                    <th scope="col">NIVEL FUNC</th>
+                                    <th scope="col">ESTADO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbFilas">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        fetch('http://localhost:3000/')
+            .then(function (respuesta) {
+                if (respuesta.ok) {
+                    console.log('Dentro del if ' + respuesta.statusText);
+                    console.log('Retornamos la respuesta con la promesa en json');
+                    return respuesta.json();
+                } else {
+                    console.log('Respuesta con la petición Fetch OK: ' + respuesta.statusText);
+                }
+            }).then(function (dataJson) {
+                console.log('Dentro del retorno de la respuesta');
+                console.log(dataJson);
+
+                if (dataJson.success) {
+                    console.log('Dentro if success');
+                    console.log('Valor de usuario: ' + dataJson.result.length);
+                    for (i = 0; i < dataJson.result.length; i++) {
+                        var fila = '<th scope="row">' + (i + 1) + '</th> '
+                            + '<td>' + dataJson.result[i]['USUARIO'] + '</td>'
+                            + '<td>' + dataJson.result[i]['NOMBRE'] + '</td>'
+                            + '<td>' + dataJson.result[i]['TIPO'] + '</td>'
+                            + '<td>' + dataJson.result[i]['NIVELFUNCIONARIO'] + '</td>'
+                            + '<td>' + dataJson.result[i]['ESTADO'] + '</td>'
+                        var registro = document.createElement("tr");
+                        registro.innerHTML = fila;
+                        document.getElementById("tbFilas").appendChild(registro);
+                    }
+                } else {
+                    console.log('Dentro else success');
+                }
+            }).catch(function (error) {
+                console.log('Hubo un problema con la petición Fetch: ' + error.message);
+            });
+    </script>
+    <script src="appjarc.js"></script>
 </body>
 
 </html>
